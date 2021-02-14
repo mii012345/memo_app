@@ -1,0 +1,11 @@
+<form action="{% url 'memo:edit' memo.id %}" method="post">
+    {% csrf_token %}
+    <input type="text" id="memo" value="{{ memo.memo_text }}">
+    <input type="submit" value="edit">
+</form>
+
+
+<form action="{% url 'memo:delete' memo.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="delete">
+</form>

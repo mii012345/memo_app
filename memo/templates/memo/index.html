@@ -1,0 +1,40 @@
+ 	
+{% include '../layout/header.html' %}
+
+<form action="{% url 'memo:insert' %}" method="post">
+    {% csrf_token %}
+    <input type="text">
+    <input type="submit" value="add">
+</form>
+{% if latest_memo_list %}
+    <div class="row mb-2">
+        <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                            <form action="{% url 'memo:insert' %}" method="post">
+                                {% csrf_token %}
+                                <strong class="d-inline-block mb-2 text-primary"><input type="text" placeholder="タイトル" name="title" class="input-group-text"></strong>
+                                <h3 class="mb-0"><input type="text" placeholder="ジャンル" name="type" class="input-group-text"></h3>
+                                <p class="card-text mb-auto"><input type="text" name="memo" placeholder="メモ" class="input-group-text"></p>
+                                <input type="submit" class="btn btn-outline-secondary" value="追加">
+                            </form>
+                    </div>
+                </div>
+            </div>
+        {% for memo in latest_memo_list %}
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                            <strong class="d-inline-block mb-2 text-primary">{{ memo.memo_title }}</strong>
+                            <h3 class="mb-0">{{ memo.memo_type }}</h3>
+                            <div class="mb-1 text-muted">{{ memo.pub_date }}</div>
+                            <p class="card-text mb-auto">{{ memo.memo_text }}</p>
+                            <a href="{% url 'memo:detail' memo.id %}" class="stretched-link">編集</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No memo are available.</p>
+{% endif %}
